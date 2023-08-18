@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Nutrition Information</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <nav class+"navbar navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+            Recipe Nutrition Information
+            </a>
+        </div>
+    </nav>"
+    <div class="container mt-3">
+        <div class="row">
+            <form id="recipe-check-form">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" />
+                </div>
+                <div class="mb-3">
+                    <label for="recipe" class="form-label">Recipe</label>
+                    <textarea class="form-control" id="recipe" name="recipe" rows="3"></textarea>
+                    </div>
+                    <button class="btn btn-primary">Submit Recipe</button>
+                </form>
+            </div>
+
+            <div class="row" id="output">
+                <!-- Results -->
+            </div>
+
+        <script>
+            (function() {
+                const titleInput = document.getElementById('title');
+                const recipeInput = document.getElementById('recipe');
+                const output = document.getElementById('output');
+                const appId = 'd5b9b824';
+                const apiKey = '53cd290f577cf6e0a83f7cab4464b02a';
+
+                function fetchRecipe() {
+                    let title = titleInput.value;
+                    let ingr = recipeInput.value.split('\n');
+
+                    return fetch('https://api.edamam.com/api/nutritiondetails?app_id=${appId}&app_key=${apiKey}', {
+                        method: 'POST',
+                        cache: 'no-cache',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({title, ingr})
+                    }).then(response => response.json());
+                }
+
+                document.getElementById('recipe-check-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    fetchRecipe().then(data => {
+                        let fragments = [];
+
+                        Object.keys(data.totalDaily).forEach(key => {
+                            let obj = data.totalDaily[key];
+
+                            fragments.push('<dt>${obj.label}</dt><dd>${obj.quantity}${obj.unit}</dd>');
+                        })
+
+
+                        let html = '<dl>
+                            <dt>Calories</dt>
+                            <dd>${data.calories}</dd>
+                            ${fragments.join('')}
+                            </dl>';
+
+
+                            output.innerHTML = html;
+                    });
+                })
+
+
+            })();
+
+
+        </script>
+</body>
+</html>
