@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <nav class+"navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
             Recipe Nutrition Information
@@ -41,18 +41,12 @@
                 const output = document.getElementById('output');
                 const appId = 'd5b9b824';
                 const apiKey = '53cd290f577cf6e0a83f7cab4464b02a';
-                const cors = require("cors")
-                app.use(
-                    cors({
-                        origin: '*',
-                    })
-                )
 
                 function fetchRecipe() {
                     let title = titleInput.value;
                     let ingr = recipeInput.value.split('\n');
 
-                    return fetch('https://api.edamam.com/api/nutritiondetails?app_id=${d5b9b824}&app_key=${53cd290f577cf6e0a83f7cab4464b02a}', {
+                    return fetch(`https://api.edamam.com/api/nutrition-details?app_id=${appId}&app_key=${apiKey}`, {
                         method: 'POST',
                         cache: 'no-cache',
                         headers: {
