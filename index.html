@@ -65,15 +65,15 @@
                         Object.keys(data.totalDaily).forEach(key => {
                             let obj = data.totalDaily[key];
 
-                            fragments.push('<dt>${obj.label}</dt><dd>${obj.quantity}${obj.unit}</dd>');
+                            fragments.push(`<dt>${obj.label}</dt><dd>${obj.quantity}${obj.unit}</dd>`);
                         })
 
 
                         let html = `<dl>
-              <dt>Calories</dt>
-              <dd>${data.calories}</dd>
-              ${fragments.join('')}
-            </dl>`;
+                            <dt>Calories</dt>
+                            <dd>${data.calories}</dd>
+                            ${fragments.join('')}
+                            </dl>`;
 
 
                             output.innerHTML = html;
